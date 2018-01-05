@@ -27,21 +27,17 @@ class MarkovDictionary():
                     
             if not found:
                 self.chain.append(MarkovDictionary.Word(word))
-                    
             self.chain.sort(key=lambda w: w.count, reverse=True)
         
         def getWordFromChain(self):
-            return self.chain[0].getWord()
+            return random.choice(self.chain).getWord()
             
-            
-            
-            
+           
         def __repr__(self):
             return repr(self.chain)
-        
+    # constructor for the Markov Dictionary class, builds upon the word and chain class    
     def __init__(self, text=None, dictionary=None):
         self.dictionary = {}
-        # If text is submitted with object declaration
         if text != None:
             self.addText(text.lower())
         
@@ -53,13 +49,13 @@ class MarkovDictionary():
         for i in range(0, len(newText) - 1):
             if newText[i] not in self.dictionary:
                 self.dictionary[newText[i]] = MarkovDictionary.Chain()
-                
             self.dictionary[newText[i]].insert(newText[i + 1])
     
     def getRandomWord(self):
         return random.choice(list(self.dictionary.keys()))
         
     def getWordFromChain(self, word):
+        #problem flow point 2
         return self.dictionary[word].getWordFromChain()
         
 
@@ -67,8 +63,8 @@ class Markov():
     def __init__(self, text):
         self.dictionary = MarkovDictionary(text)
         
-    def printRandomWord(self):
-        print(self.dictionary.getRandomWord())
+    def getRandomWord(self):
+        return self.dictionary.getRandomWord()
     
     def addText(self, text):
         self.dictionary.addText(text)
@@ -83,14 +79,9 @@ class Markov():
             except:
                 word1 = self.dictionary.getRandomWord()
                 generatedText += word1 + " "
+        
         return generatedText
    
 
-class TestMarkov(): 
-    text = " well this is just a simple song to say what you done I told you about all those fears and away they did run you sure must be strong and you feel like an ocean being warmed by the sun i am all those men you fear "
-    n = Markov(text)
-    n.printRandomWord()
-    print(n.generateText(15))
-    
 
 
